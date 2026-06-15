@@ -1,0 +1,15 @@
+node_modules/
+dist/
+target/
+.idea/
+.vscode/
+.DS_Store
+.env
+.env.*
+*.log
+coverage/
+build/
+docker-data/
+*.jdk/
+oracleJdk-*.jdk/
+*.tsbuildinfo

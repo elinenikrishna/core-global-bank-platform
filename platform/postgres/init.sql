@@ -1,0 +1,19 @@
+CREATE SCHEMA IF NOT EXISTS CGB AUTHORIZATION coreglobal;
+ALTER ROLE coreglobal SET search_path TO CGB, public;
+
+CREATE TABLE IF NOT EXISTS CGB.PLATFORM_AUDIT (
+  audit_id UUID PRIMARY KEY,
+  correlation_id VARCHAR(80) NOT NULL,
+  service_name VARCHAR(80) NOT NULL,
+  event_type VARCHAR(120) NOT NULL,
+  actor_id VARCHAR(120),
+  payload JSONB,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS IDX_PLATFORM_AUDIT_CORRELATION ON CGB.PLATFORM_AUDIT(correlation_id);
+CREATE INDEX IF NOT EXISTS IDX_PLATFORM_AUDIT_CREATED ON CGB.PLATFORM_AUDIT(created_at DESC);
+
+-- Oracle compatibility notes:
+-- UUID -> RAW(16), JSONB -> CLOB CHECK (payload IS JSON), TIMESTAMPTZ -> TIMESTAMP WITH TIME ZONE.
+-- Schema objects retain the CGB_ naming convention for direct Oracle migration.
+
